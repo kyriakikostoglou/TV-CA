@@ -1,5 +1,5 @@
 # TV-CA
-%%%%%%%%%% Time-varying Cerebral Autoregulation estimation using a Kalman filtering approach %%%%%%%%
+Time-varying Cerebral Autoregulation estimation using a Kalman filtering approach
 ```
 ├── code
 │   └── [matlab scripts]
