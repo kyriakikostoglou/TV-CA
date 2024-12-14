@@ -1,4 +1,4 @@
-# TVCA
+# TV-CA
 %%%%%%%%%% Time-varying Cerebral Autoregulation estimation using a Kalman filtering approach %%%%%%%%
 
 ├── code
