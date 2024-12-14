@@ -4,11 +4,12 @@ close all;clear all
 
 %Load data
 load('dummydata.mat')
+Fs=1; %sampling rate
 
 INP=inp'; %input
 OUT=out'; %output
 ignore=1; %ignore initialization samples
-IMPLENGTH=10; %impulse response length in sample
+IMPLENGTH=15; %impulse response length in sample
 
 %%%% Genetic Algorithm to optimize KF hyperparameters and ARX model order 
 %GA parameters
@@ -33,12 +34,17 @@ h = @(X)TVARX(X,OUT,INP,ignore); %time-varying ARX estimation
 %impulse response
 [thm,h]=SIMTVARX(lam,OUT,INP,ignore,IMPLENGTH);
 
+%Plot time-varying impulse response
+figure;
+mesh((0:size(h,2)-1)/Fs,1:IMPLENGTH,h);
+title('Time-varying impulse response');
+ylabel('lags');
+xlabel('s');
 
 %%%%%%%Extract the frequency response (i.e., magnitude and phase response) of the impulse response
 nfft = 512;  % Number of points for FFT (choose a sufficiently large value for better resolution)
 gain=zeros(nfft,size(h,2));
 phase=zeros(nfft,size(h,2));
-Fs=1; %sampling rate
 frequencies = (0:nfft-1) * (Fs / nfft);  % Frequency vector in Hz    
 
 % Compute the time-varying frequency response
