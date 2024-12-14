@@ -9,7 +9,7 @@ Fs=1; %sampling rate
 INP=inp'; %input
 OUT=out'; %output
 ignore=1; %ignore initialization samples
-IMPLENGTH=15; %impulse response length in sample
+IMPLENGTH=20; %impulse response length in sample
 
 %%%% Genetic Algorithm to optimize KF hyperparameters and ARX model order 
 %GA parameters
@@ -34,40 +34,44 @@ h = @(X)TVARX(X,OUT,INP,ignore); %time-varying ARX estimation
 %impulse response
 [thm,h]=SIMTVARX(lam,OUT,INP,ignore,IMPLENGTH);
 
+time=(0:size(h,2)-1)/Fs;
+
 %Plot time-varying impulse response
 figure;
-mesh((0:size(h,2)-1)/Fs,1:IMPLENGTH,h);
+mesh(time(55:end),1:IMPLENGTH,h(:,55:end));
 title('Time-varying impulse response');
 ylabel('lags');
 xlabel('s');
 
 %%%%%%%Extract the frequency response (i.e., magnitude and phase response) of the impulse response
 nfft = 512;  % Number of points for FFT (choose a sufficiently large value for better resolution)
-gain=zeros(nfft,size(h,2));
-phase=zeros(nfft,size(h,2));
-frequencies = (0:nfft-1) * (Fs / nfft);  % Frequency vector in Hz    
+
+NYQ_FREQ=Fs/2;
+frequencies=0:NYQ_FREQ/(nfft/2):NYQ_FREQ;
+
+
+gain=zeros(length(frequencies),size(h,2));
+phase=zeros(length(frequencies),size(h,2));
 
 % Compute the time-varying frequency response
 for t=1:size(h,2)
     H = fft(h(:,t), nfft);  % FFT of the impulse response
     % Extract gain and phase
-    gain(:,t) = (abs(H));      % Magnitude (gain)
-    phase(:,t) = angle(H);   % Phase in radians
+    gain(:,t) = (abs(H(1:(nfft/2)+1)));      % Magnitude (gain)
+    phase(:,t) = angle(H(1:(nfft/2)+1));   % Phase in radians
 end
 
 % Plot the results
 figure;
-subplot(2,1,1);
-mesh((0:size(h,2)-1)/Fs,frequencies, gain);
-ylim([0 Fs/2])
-title('Gain (Magnitude)');
+% subplot(2,1,1);
+mesh(time(55:end),frequencies, gain(:,55:end));
+title('Gain');
 ylabel('Hz');
 xlabel('s');
 zlabel('Gain');
-subplot(2,1,2);
-mesh((0:size(h,2)-1)/Fs,frequencies, phase);
-ylim([0 Fs/2])
-title('Phase');
-ylabel('Hz');
-xlabel('s');
-zlabel('Phase (radians)');
+% subplot(2,1,2);
+% mesh(time(55:end),frequencies, (phase(:,55:end)));
+% title('Phase');
+% ylabel('Hz');
+% xlabel('s');
+% zlabel('Phase (radians)');
