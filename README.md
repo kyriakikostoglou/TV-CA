@@ -20,7 +20,7 @@ This code is utilized to estimate a time-varying Autoregressive with Exogenous I
 To optimize the Kalman Filter hyperparameters and the ARX model order (see also tutorial.pdf), a Genetic Algorithm (GA) is employed. The GA searches for the set of hyperparameters that minimize the Akaike Information Criterion (AIC) between the actual and predicted (through the ARX model) output, ensuring an optimal balance between model complexity and accuracy.
 
 _________________________________________________________________________________________________________________________________________________________________________________
-References:
+# References
 
 Kostoglou, K., Bello-Robles, F., Brassard, P., Chacon, M., Claassen, J. A., Czosnyka, M., ... & Mitsis, G. D. (2024). Time-domain methods for quantifying dynamic cerebral blood flow autoregulation: Review and recommendations. A white paper from the Cerebrovascular Research Network (CARNet). Journal of Cerebral Blood Flow & Metabolism, 44(9), 1480-1514.
 
