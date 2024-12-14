@@ -55,11 +55,13 @@ subplot(2,1,1);
 mesh((0:size(h,2)-1)/Fs,frequencies, gain);
 ylim([0 Fs/2])
 title('Gain (Magnitude)');
-xlabel('Normalized Frequency');
-ylabel('Gain');
+ylabel('Hz');
+xlabel('s');
+zlabel('Gain');
 subplot(2,1,2);
 mesh((0:size(h,2)-1)/Fs,frequencies, phase);
 ylim([0 Fs/2])
 title('Phase');
-xlabel('Normalized Frequency');
-ylabel('Phase (radians)');
+ylabel('Hz');
+xlabel('s');
+zlabel('Phase (radians)');
